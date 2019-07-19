@@ -19,6 +19,9 @@ return [
         'post'       => 'posts',
         'register'   => 'register',
         'login'      => 'login',
+        'api'           => [
+            'category'  => 'categoryapi'
+        ],
     ],
 
    /*
@@ -253,7 +256,7 @@ return [
     'paginate' => [
         'num_of_results' => 10,
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | Show missing fields to users in forms
