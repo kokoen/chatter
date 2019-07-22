@@ -4,8 +4,11 @@ namespace DevDojo\Chatter\Controllers;
 
 use Auth;
 use DevDojo\Chatter\Helpers\ChatterHelper as Helper;
-use DevDojo\Chatter\Models\Models;
 use Illuminate\Routing\Controller as Controller;
+
+use DevDojo\Chatter\Models\Models;
+
+use DevDojo\Chatter\Models\VueDiscussion;
 
 class ChatterApiDiscussionController extends Controller
 {
@@ -29,7 +32,12 @@ class ChatterApiDiscussionController extends Controller
             }
         }
 
-        $data = $discussions->take(3)->get();
+        $discussions = $discussions->take(3)->get();
+
+        $data = [];
+        foreach( $discussions AS $discussion ){
+            $data[] = new VueDiscussion( $discussion );
+        }
 
         return response()->json( compact( 'success', 'data' ) );
         //return view('chatter::home', compact('discussions', 'categories', 'categoriesMenu', 'chatter_editor', 'current_category_id'));
