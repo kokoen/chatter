@@ -19,15 +19,35 @@
 
 
 @section('content')
-
 <div id="chatter" class="discussion">
-
-	<div id="chatter_header" style="background-color:{{ $discussion->color }}">
-		<div class="container">
-			<a class="back_btn" href="/{{ Config::get('chatter.routes.home') }}"><i class="chatter-back"></i></a>
-			<h1>{{ $discussion->title }}</h1><span class="chatter_head_details"> @lang('chatter::messages.discussion.head_details')<a class="chatter_cat" href="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $discussion->category->slug }}" style="background-color:{{ $discussion->category->color }}">{{ $discussion->category->name }}</a></span>
-		</div>
-	</div>
+<div class="page-wrapper fixed-footer">
+    <!--Breadcrumb section starts-->
+    <div class="breadcrumb-section" style="background-image: url(/img/breadcrumb.png)">
+        <?php $headline_logo = Config::get('chatter.headline_logo'); ?>
+        @if( isset( $headline_logo ) && !empty( $headline_logo ) )
+            <img src="{{ Config::get('chatter.headline_logo') }}">
+        @endif
+        <div class="overlay op-5"></div>
+        <div class="container">
+            <div class="row align-items-center  pad-top-80">
+                <div class="col-md-6 col-12">
+                    <div class="breadcrumb-menu">
+                        <h2 class="page-title">@lang('chatter::intro.headline')</h2>
+                        <p>@lang('chatter::intro.description')</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="breadcrumb-menu text-right sm-left">
+                        <ul>
+                            <li class="active"><a href="{{ route('start') }}">Home</a></li>
+                            <li><a href="#">Forum</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Breadcrumb section ends-->
 
 	@if(config('chatter.errors'))
 		@if(Session::has('chatter_alert'))
@@ -53,29 +73,100 @@
 				</div>
 			</div>
 		@endif
-	@endif
+    @endif
 
-	<div class="container margin-top">
-
-	    <div class="row">
+    <!--Blog section starts-->
+    <div class="blog-area section-padding pad-bot-40 mar-top-20">
+        <div class="container">
+            <div class="row">
+            <!-- left Sidebar starts-->
 
 			@if(! Config::get('chatter.sidebar_in_discussion_view'))
 	        	<div class="col-md-12">
             @else
-                <div class="col-md-3 left-column">
-                    <!-- SIDEBAR -->
-                    <div class="chatter_sidebar">
-                        <button class="btn btn-primary" id="new_discussion_btn"><i class="chatter-new"></i> @lang('chatter::messages.discussion.new')</button>
-                        <a href="/{{ Config::get('chatter.routes.home') }}"><i class="chatter-bubble"></i> @lang('chatter::messages.discussion.all')</a>
-                        <ul class="nav nav-pills nav-stacked">
-                            <?php $categories = DevDojo\Chatter\Models\Models::category()->all(); ?>
-                            @foreach($categories as $category)
-                                <li><a href="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $category->slug }}"><div class="chatter-box" style="background-color:{{ $category->color }}"></div> {{ $category->name }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <!-- END SIDEBAR -->
-                </div>
+            <!-- left Sidebar starts-->
+			<div class="col-xl-3 col-md-12 sidebar">
+					<div class="chatter_sidebar">
+						<div class="widget search">
+							<form>
+								<input type="text" class="form-control" placeholder="Search">
+								<button type="submit" class="search-button"><i class="ion-ios-search"></i></button>
+							</form>
+						</div>
+						
+							<button class="btn btn-primary" id="new_discussion_btn"><i class="chatter-new"></i> @lang('chatter::messages.discussion.new')</button>
+							{{--<a href="/{{ Config::get('chatter.routes.home') }}"><i class="chatter-bubble"></i> @lang('chatter::messages.discussion.all')</a>--}}
+
+						<div class="widget categories">
+							<h3 class="widget-title">Categories</h3>
+							<ul class="icon">
+								<?php $categories = DevDojo\Chatter\Models\Models::category()->all(); ?>
+								@foreach($categories as $category)
+									<li><a href="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $category->slug }}"><div class="chatter-box" style="background-color:{{ $category->color }}"></div> {{ $category->name }}</a></li>
+								@endforeach
+                        	</ul>
+                    	</div>
+						<div class="widget recent-posts">
+							<h3 class="widget-title">Recent Posts</h3>
+								<ul class="post-list">
+									<li class="row mar-top-30">
+										<div class="col-lg-5 col-4">
+											<div class="entry-img">
+												<img src="images/blog/blog-thumb-1.jpg" alt="...">
+											</div>
+										</div>
+										<div class="col-lg-7 col-8">
+											<div class="entry-text">
+												<h4 class="entry-title"><a href="single-news-one.html">Best caffe in London </a></h4>
+												<span class="entry-date">Aug 16th, 2017</span>
+											</div>
+										</div>
+									</li>
+									<li class="row mar-top-30">
+										<div class="col-lg-5 col-4">
+											<div class="entry-img">
+												<img src="images/blog/blog-thumb-2.jpg" alt="...">
+											</div>
+										</div>
+										<div class="col-lg-7  col-8">
+											<div class="entry-text">
+												<h4 class="entry-title"><a href="single-news-one.html">3 Ways to style city street</a></h4>
+												<span class="entry-date">Oct 12th, 2017</span>
+											</div>
+										</div>
+									</li>
+									<li class="row mar-top-30">
+										<div class="col-lg-5  col-4">
+											<div class="entry-img">
+												<img src="images/blog/blog-thumb-3.jpg" alt="...">
+											</div>
+										</div>
+										<div class="col-lg-7  col-8">
+											<div class="entry-text">
+												<h4 class="entry-title"><a href="single-news-one.html">Best Cheap Hotel in London</a></h4>
+												<span class="entry-date">Sep 25th, 2017</span>
+											</div>
+										</div>
+									</li>
+								</ul>
+						</div>
+							<!-- Tags -->
+							<div class="widget">
+								<h3 class="widget-title">Tags</h3>
+								<ul class="list-tags">
+									<li><a href="#" class="btn v6 dark">Hotel</a></li>
+									<li><a href="#" class="btn v6 dark">Travel</a></li>
+									<li><a href="#" class="btn v6 dark">Living</a></li>
+									<li><a href="#" class="btn v6 dark">Eat &amp; Drink</a></li>
+									<li><a href="#" class="btn v6 dark">Luxury</a></li>
+									<li><a href="#" class="btn v6 dark">Food</a></li>
+									<li><a href="#" class="btn v6 dark">Restaurant</a></li>
+								</ul>
+							</div>
+					</div>
+				</div>
+				<!-- left Sidebar ends -->
+				
                 <div class="col-md-9 right-column">
             @endif
 
